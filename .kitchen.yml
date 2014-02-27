@@ -1,0 +1,25 @@
+---
+driver:
+  name: vagrant
+  vm_hostname: npmlazy-test
+  network:
+    - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
+
+driver_config:
+  require_chef_omnibus: true
+  box: precise64
+  box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+  customize:
+    memory: 512
+
+platforms:
+- name: ubuntu-12.04
+
+provisioner:
+    name: chef_zero
+
+suites:
+- name: default
+  run_list:
+    - "recipe[npmlazy::default]"
+  attributes:
