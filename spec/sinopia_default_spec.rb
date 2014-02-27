@@ -1,6 +1,6 @@
 # require 'spec_helper'
 #
-# describe 'npmlazy::nodejs' do
+# describe 'sinopia::nodejs' do
 #  context 'on Ubuntu 12.04' do
 #    let(:chef_run) do
 #      ChefSpec::Runner.new(platform: 'ubuntu', version: '12.04')
