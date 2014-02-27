@@ -6,6 +6,7 @@
 
 package 'gcc'
 package 'make'
+package 'build-essential'
 
 node_npm 'sinopia' do
   version node['sinopia']['version']
