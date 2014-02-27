@@ -6,14 +6,25 @@ default['sinopia']['user'] = 'sinopia'
 ## sinopia gem version (use nil for latest)
 default['sinopia']['version'] = nil
 
+## sinopia users configuration
+default['sinopia']['admin']['password'] = 'admin'
+
+default['sinopia']['users']['andy']['password'] = 'andy'
+default['sinopia']['users']['andy']['admin'] = true
+default['sinopia']['users']['woody']['password'] = 'woody'
+
 ## sinopia conf directories
 # Parents directory MUST exists !
-default['sinopia']['conf']['confdir'] = '/etc/sinopia'
-default['sinopia']['conf']['logdir'] = '/var/log/sinopia'
-default['sinopia']['conf']['cachedir'] = '/var/lib/sinopia'
+default['sinopia']['confdir'] = '/etc/sinopia'
+default['sinopia']['logdir'] = '/var/log/sinopia'
+default['sinopia']['cachedir'] = '/var/lib/sinopia'
 
-## sinopia conf options
-default['sinopia']['conf']['one'] = ''
+## NodeJS repo list options
+default['sinopia']['repos'] = {
+  'npmjs' => 'https://registry.npmjs.org/',
+  'toto' => 'https://dev.null/'
+}
+
 default['sinopia']['conf']['two'] = ''
 
 ## Node default install method (source | package | binary)

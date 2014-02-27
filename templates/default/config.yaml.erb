@@ -46,7 +46,7 @@ packages:
     allow_access: all
 
     # allow 'admin' to publish packages
-    allow_publish: admin<%= node['sinopia']['users'].each do |user,conf| %><% if conf['admin']%><%= ' ' + user -%> <% end %><% end %> 
+    allow_publish: admin<%= @admins %> 
 
     # if package is not available locally, proxy requests to 'npmjs' registry
     proxy: npmjs
