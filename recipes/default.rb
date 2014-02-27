@@ -20,4 +20,4 @@
 
 include_recipe 'sinopia::users'
 include_recipe 'sinopia::nodejs'
-# include_recipe 'sinopia::sinopia'
+include_recipe 'sinopia::sinopia'

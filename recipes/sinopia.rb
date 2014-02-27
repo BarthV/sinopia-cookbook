@@ -4,6 +4,9 @@
 # Recipe:: sinopia
 #
 
+package 'gcc'
+package 'make'
+
 node_npm 'sinopia' do
   version node['sinopia']['version']
   action :install

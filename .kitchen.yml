@@ -1,7 +1,7 @@
 ---
 driver:
   name: vagrant
-  vm_hostname: npmlazy-test
+  vm_hostname: sinopia-test
   network:
     - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
 
@@ -21,5 +21,5 @@ provisioner:
 suites:
 - name: default
   run_list:
-    - "recipe[npmlazy::default]"
+    - "recipe[sinopia::default]"
   attributes:
