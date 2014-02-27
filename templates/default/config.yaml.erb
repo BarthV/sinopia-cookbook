@@ -1,70 +1,84 @@
-// THIS FILE IS MANAGED BY CHEF !
-// ALL CHANGES WILL BE LOST !
+## THIS FILE IS MANAGED BY CHEF !
+## ALL CHANGES WILL BE LOST !
 
+# path to a directory with all packages
+storage: <%= node['sinopia']['confdir'] %>
 
-
-
-module.exports = {
-  // Logging config
-  loggingOpts: {
-<% case node[:npmlazy][:conf][:logmethod]
-   when 'file' %>
-    logToConsole: false,
-    logToFile: true,
-<% when 'none' %>
-    logToConsole: false,
-    logToFile: false,
-<% when 'both' %>
-    logToConsole: true,
-    logToFile: true,
-<% else %> 
-    logToConsole: true,
-    logToFile: false,
+# a list of users
+users:
+  admin:
+    # crypto.createHash('sha1').update(pass).digest('hex')
+    password: <%= node['sinopia']['admin']['password'] %>
+<% node['sinopia']['users'].each do |user,conf| %>
+  <%= user %>:
+    password: <%= conf['pass'] %>
 <% end %>
-    // This should be a file path.
-    filename: '<%= File.join(node['npmlazy']['conf']['logdir'],'npm_lazy.log') %>'
-  },
 
-  // Cache config
+# a list of other known repositories we can talk to
+uplinks:
+<% node['sinopia']['repos'].each do |name,url| %>
+  <%= name %>:
+    url: <%= url %>
+<% end %>
 
-  // `cacheDirectory`: Directory to store cached packages.
-  //
-  // Note: Since any relative path is resolved relative to the current working
-  // directory when the server is started, you should use a full path.
+    # amount of time (in milliseconds) to wait for repository to respond
+    # before giving up and use the local cached copy
+    #timeout: 30000
 
-  cacheDirectory: '<%= node['npmlazy']['conf']['cachedir'] %>',
+    # maximum time (in seconds) in which data is considered up to date
+    #
+    # default is 2 minutes, so server won't request the same data from
+    # uplink if a similar request was made less than 2 minutes ago
+    #maxage: 120
 
-  // `cacheAge`: maximum age before an index is refreshed from remoteUrl
-  // - negative value means no refresh (e.g. once cached, never update the package.json metadata)
-  // - zero means always refresh (e.g. always ask the registry for metadata)
-  // - positive value means refresh every n milliseconds
-  //   (e.g. 60 * 60 * 1000 = expire metadata every 60 minutes)
-  //
-  // Note: if you want to use `npm star` and other methods which update
-  // npm metadata, you will need to set cacheAge to 0. npm generally wants the latest
-  // package metadata version so caching package metadata will interfere with it.
+packages:
+  # uncomment this for packages with "local-" prefix to be available
+  # for admin only, it's a recommended way of handling private packages
+  #'local-*':
+  #  allow_access: admin
+  #  allow_publish: admin
+  #  # you can override storage directory for a group of packages this way:
+  #  storage: 'local_storage'
 
-  // Recommended setting: 0
-  cacheAge: <%= node['npmlazy']['conf']['cacheage'] %>,
+  '*':
+    # allow all users to read packages ('all' is a keyword)
+    # this includes non-authenticated users
+    allow_access: all
 
-  // Request config
+    # allow 'admin' to publish packages
+    allow_publish: admin<%= node['sinopia']['users'].each do |user,conf| %><% if conf['admin']%><%= ' ' + user -%> <% end %><% end %> 
 
-  // max milliseconds to wait for each HTTP response
-  httpTimeout: <%= node['npmlazy']['conf']['httptimeout'] %>,
-  // maximum number of retries per HTTP resource to get
-  maxRetries: <%= node['npmlazy']['conf']['maxretries'] %>,
-  // whether or not HTTPS requests are checked against Node's list of CAs
-  // set false if you are using your own npm mirror with a self-signed SSL cert
-  rejectUnauthorized: <%= node['npmlazy']['conf']['rejectunauthorized'] %>,
+    # if package is not available locally, proxy requests to 'npmjs' registry
+    proxy: npmjs
 
-  // Remote and local URL
+#####################################################################
+# Advanced settings
+#####################################################################
 
-  // external url to npm_lazy, no trailing /
-  externalUrl: '<%= node['npmlazy']['conf']['externalurl'] %>',
-  // registry url with trailing /
-  remoteUrl: '<%= node['npmlazy']['conf']['remoteurl'] %>',
-  // bind port and host
-  port: <%= node['npmlazy']['conf']['port'] %>,
-  host: '<%= node['npmlazy']['conf']['host'] %>'
-};
+# if you use nginx with custom path, use this to override links
+#url_prefix: https://dev.company.local/sinopia/
 
+# you can specify listen address (or simply a port)
+#listen: localhost:4873
+
+# type: file | stdout | stderr
+# level: trace | debug | info | http (default) | warn | error | fatal
+#
+# parameters for file: name is filename
+#  {type: 'file', path: 'sinopia.log', level: 'debug'},
+#
+# parameters for stdout and stderr: format: json | pretty
+#  {type: 'stdout', format: 'pretty', level: 'debug'},
+logs:
+  - {type: stdout, format: pretty, level: http}
+  #- {type: file, path: sinopia.log, level: info}
+
+# you can specify proxy used with all requests in wget-like manner here
+# (or set up ENV variables with the same name)
+#http_proxy: http://something.local/
+#https_proxy: https://something.local/
+#no_proxy: localhost,127.0.0.1
+
+# maximum size of uploaded json document
+# increase it if you have "request entity too large" errors
+#max_body_size: 1mb

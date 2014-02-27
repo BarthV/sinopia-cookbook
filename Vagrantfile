@@ -1,1 +1,1 @@
-Vagrantfile.lxc
+Vagrantfile.vbox

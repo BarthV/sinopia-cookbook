@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.hostname = "npmlazy-vagrant"
+  config.vm.hostname = "sinopia-vagrant"
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "precise64"
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
   #   vb.gui = true
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "512"]
+    vb.customize ["modifyvm", :id, "--memory", "3000"]
   end
   #
   # View the documentation for the provider you're using for more
@@ -71,15 +71,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {
-      :mysql => {
-        :server_root_password => 'rootpass',
-        :server_debian_password => 'debpass',
-        :server_repl_password => 'replpass'
-      }
     }
 
     chef.run_list = [
-        "recipe[npmlazy::default]"
+        "recipe[sinopia::default]"
     ]
   end
 end
