@@ -34,8 +34,8 @@ default['sinopia']['datadir'] = '/var/lib/sinopia'
 
 ## NodeJS repo list options
 default['sinopia']['repos'] = {
-  'npmjs' => 'https://registry.npmjs.org/',
-  'norepo' => 'https://dev.null/'
+  'npmjs' => 'https://registry.npmjs.org/' # official npmjs repo
+#  'myrepo' => 'https://myrepo.local/'
 }
 
 default['sinopia']['mainrepo'] = 'npmjs'
@@ -61,7 +61,7 @@ default['sinopia']['filters'] = [
 #    'name' => 'admin-*',
 #    'access' => ['andy', 'woody']
 #  },
-#  
+# 
 ## @admin is a special value for admin account + all admin users
 #
 #  {
@@ -80,7 +80,7 @@ default['sinopia']['filters'] = [
 # parameters for stdout and stderr: format: json | pretty
 #  {type: 'stdout', format: 'pretty', level: 'debug'},
 default['sinopia']['logs'] = [
-  "{type: file, path: #{File.join(node['sinopia']['logdir'], 'sinopia.log')}, level: http}"
+  "{type: file, path: #{File.join(node['sinopia']['logdir'], 'sinopia.log')}, level: warn}"
 ]
 
 ## Node default install method (source | package | binary)
