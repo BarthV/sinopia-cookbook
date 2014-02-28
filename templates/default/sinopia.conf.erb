@@ -15,6 +15,6 @@ setgid <%= node['sinopia']['user'] %>
 respawn
 
 script
-    exec sinopia -c <%= File.join(default['sinopia']['confdir'], 'config.yaml') %>
+    exec sinopia -c <%= File.join(node['sinopia']['confdir'], 'config.yaml') %>
 end script
 
