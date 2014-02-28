@@ -157,6 +157,10 @@ See `attributes/default.rb` to view Node & npm install options (version, source/
 - `sinopia::nodejs` : install node & npm
 - `sinopia::sinopia` : install sinopia, directories, conf and start service
 
+# Testing
+
+Sinopia cookbook is bundled with a Vagrantfile. If you have virtualbox and vagrant ready, just fire a `vagrant up` and this will setup a box running Sinopia and listening 0.0.0.0:4873. Port 4873 is forwaded to your 127.0.0.1:4873 for test purposes.
+
 # Author
 
 Author:: Barthelemy Vessemont (<bvessemont@gmail.com>)
