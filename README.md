@@ -62,14 +62,14 @@ No users are created by default.
 * You can set user list with a hash under `default['sinopia']['users']`, you need to specify a password for each user
 * You can give admin right to a specific user with `user['admin'] = true` hash
 
-Example: 
-   node['sinopia']['users']['bob']['pass'] = 'incredible'
-   node['sinopia']['users']['bob']['admin'] = true
-   
-   node['sinopia']['users']['andy']['pass'] = 'toys'
-   node['sinopia']['users']['andy']['admin'] = true
-   
-   node['sinopia']['users']['woody']['pass'] = 'buzz'
+Example:
+```node['sinopia']['users']['bob']['pass'] = 'incredible'
+node['sinopia']['users']['bob']['admin'] = true
+
+node['sinopia']['users']['andy']['pass'] = 'toys'
+node['sinopia']['users']['andy']['admin'] = true
+
+node['sinopia']['users']['woody']['pass'] = 'buzz'```
 
 ## NPM Registry
 
@@ -78,11 +78,11 @@ You can store a list of available npm repositories in `node['sinopia']['repos']`
 Default hash is loaded with official npmjs repo : `default['sinopia']['repos'] = {'npmjs' => 'https://registry.npmjs.org/'}`
 
 Example :
-   node['sinopia']['repos'] = {
-     'npmjs' => 'https://registry.npmjs.org/', # official npmjs repo
-     'myrepo' => 'https://myrepo.local/',
-     'other' => 'https://third-party-repo.com'
-   }
+```node['sinopia']['repos'] = {
+  'npmjs' => 'https://registry.npmjs.org/', # official npmjs repo
+  'myrepo' => 'https://myrepo.local/',
+  'other' => 'https://third-party-repo.com'
+}```
 
 `node['sinopia']['mainrepo']` : (npmjs) Caching repository name selected from available repos list
 
@@ -102,38 +102,38 @@ Example :
 - Storage value is the name of the folder where filtered packages will be set.
 
 Example :
-   node['sinopia']['filters'] = [
-     {
-       'name' => 'private-*',
-       'storage' => 'private-repo'
-     },
-     {
-       'name' => 'admin-*',
-       'access' => ['andy', 'woody']
-     },
-     {
-       'name' => 'test-*',
-       'access' => '@admins'
-     }
-   ]`
+```node['sinopia']['filters'] = [
+  {
+    'name' => 'private-*',
+    'storage' => 'private-repo'
+  },
+  {
+    'name' => 'admin-*',
+    'access' => ['andy', 'woody']
+  },
+  {
+    'name' => 'test-*',
+    'access' => '@admins'
+  }
+]```
 
 ## Logging
 
 This cookbook is reusing specific logging format of Sinopia :
 
-   type: file | stdout | stderr
-   level: trace | debug | info | http (default) | warn | error | fatal
+```type: file | stdout | stderr
+level: trace | debug | info | http (default) | warn | error | fatal
 
-   {type: 'file', path: 'sinopia.log', level: 'debug'},
+{type: 'file', path: 'sinopia.log', level: 'debug'},
 
-   parameters for stdout and stderr: format: json | pretty
-   {type: 'stdout', format: 'pretty', level: 'debug'},
+parameters for stdout and stderr: format: json | pretty
+{type: 'stdout', format: 'pretty', level: 'debug'}```
 
 You can add as much logger as you want (including '{}') in `default['sinopia']['logs']` Array
 
 Default value is :
    node['sinopia']['logs'] = [
-     "{type: file, path: #{File.join(node['sinopia']['logdir'], 'sinopia.log')}, level: warn}"
+     "{type: file, path: '/var/log/sinopia/sinopia.log', level: warn}"
    ]
 
 ## NPM
