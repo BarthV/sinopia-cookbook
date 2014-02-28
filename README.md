@@ -44,7 +44,8 @@ Default values are specified each time.
 - `node['sinopia']['confdir']` : (/etc/sinopia) config.yaml file location
 - `node['sinopia']['datadir']` : (/var/lib/sinopia) Sinopia cache & private stores location
 - `node['sinopia']['logdir']` : (/var/log/sinopia) sinopia.log file location
-- `node['sinopia']['logdays']` : (30) log retention policy, `Integer` days 
+- `node['sinopia']['logdays']` : (30) log retention policy, `Integer` days
+- `node['sinopia']['loglevel']` : (warn) log level, trace | debug | info | http | warn | error | fatal
 
 ## Sinopia global conf
 
@@ -145,6 +146,10 @@ node['sinopia']['logs'] = [
   "{type: file, path: '/var/log/sinopia/sinopia.log', level: warn}"
 ]
 ```
+
+## Proxy
+
+See `attributes/default.rb` to view how to configure `node['sinopia']['use_proxy']` and `node['sinopia']['proxy']`.
 
 ## NPM
 
