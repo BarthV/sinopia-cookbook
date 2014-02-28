@@ -40,6 +40,7 @@ template File.join(node['sinopia']['confdir'], 'config.yaml') do
   variables(
     :admins => admin_add_list
   )
+  notifies :restart, 'service[sinopia]', :delayed
 end
 
 logrotate_app 'sinopia' do

@@ -23,8 +23,9 @@ default['sinopia']['users'] = {}
 # default['sinopia']['public_url'] = 'https://my-npm-private-repo.local/'
 
 ## Bind address (IP:port format)
+# use nil for default (127.0.0.1:4873)
 # use ':port' or '0.0.0.0:port' to listen on all interfaces
-default['sinopia']['listen'] = nil # 127.0.0.1:4873
+default['sinopia']['listen'] = nil
 
 ## sinopia conf directories
 # Parents directory MUST exists !
