@@ -4,6 +4,8 @@
 # Recipe:: sinopia
 #
 
+require 'digest'
+
 package 'gcc'
 package 'make'
 package 'build-essential'
@@ -13,30 +15,48 @@ node_npm 'sinopia' do
   action :install
 end
 
-directory node['sinopia']['conf']['confdir'] do
+directory node['sinopia']['confdir'] do
   recursive true
 end
 
-directory node['sinopia']['conf']['logdir'] do
+directory node['sinopia']['logdir'] do
   owner node['sinopia']['user']
   group node['sinopia']['user']
 end
 
-directory node['sinopia']['conf']['cachedir'] do
+directory node['sinopia']['datadir'] do
   owner node['sinopia']['user']
   group node['sinopia']['user']
 end
 
-# template File.join(node['npmlazy']['conf']['confdir'], 'npm_lazy_config.js') do
-#   source 'npm_lazy_config.js.erb'
-# end
+admin_add_list = []
 
-# template '/etc/init/npmlazy.conf' do
-#   source 'npmlazy.conf.erb'
-# end
+node['sinopia']['users'].each do |user, conf|
+  admin_add_list.push(user) if conf['admin']
+end
 
-# service 'npmlazy' do
-#   provider Chef::Provider::Service::Upstart
-#   supports :status => true, :restart => true, :reload => false
-#   action [:enable, :start]
-# end
+template File.join(node['sinopia']['confdir'], 'config.yaml') do
+  source 'config.yaml.erb'
+  variables(
+    :admins => admin_add_list
+  )
+  notifies :restart, 'service[sinopia]', :delayed
+end
+
+logrotate_app 'sinopia' do
+  cookbook  'logrotate'
+  path      File.join(node['sinopia']['logdir'], 'sinopia.log')
+  frequency 'daily'
+  rotate    30
+  create    '644 root adm'
+end
+
+template '/etc/init/sinopia.conf' do
+  source 'sinopia.conf.erb'
+end
+
+service 'sinopia' do
+  provider Chef::Provider::Service::Upstart
+  supports :status => true, :restart => true, :reload => false
+  action [:enable, :start]
+end
