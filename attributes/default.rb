@@ -17,7 +17,7 @@ default['sinopia']['users'] = {}
 # default['sinopia']['users']['woody']['pass'] = 'buzz'
 
 ## sinopia links rewrite URL (url_prefix)
-default['sinopia']['public_url'] = 'https://10.10.100.79/'
+# default['sinopia']['public_url'] = 'https://my-npm-private-repo.local/'
 
 ## Bind address (IP:port format)
 # use ':port' or '0.0.0.0:port' to listen on all interfaces
