@@ -1,84 +1,80 @@
 ## THIS FILE IS MANAGED BY CHEF !
 ## ALL CHANGES WILL BE LOST !
 
-# path to a directory with all packages
-storage: <%= node['sinopia']['confdir'] %>
+storage: <%= node['sinopia']['datadir'] %>
 
-# a list of users
 users:
   admin:
-    # crypto.createHash('sha1').update(pass).digest('hex')
-    password: <%= node['sinopia']['admin']['password'] %>
+    password: <%= Digest::SHA1.hexdigest(node['sinopia']['admin']['pass']) %>
 <% node['sinopia']['users'].each do |user,conf| %>
   <%= user %>:
-    password: <%= conf['pass'] %>
+    password: <%= Digest::SHA1.hexdigest(conf['pass']) %>
 <% end %>
 
-# a list of other known repositories we can talk to
 uplinks:
 <% node['sinopia']['repos'].each do |name,url| %>
   <%= name %>:
     url: <%= url %>
 <% end %>
 
-    # amount of time (in milliseconds) to wait for repository to respond
-    # before giving up and use the local cached copy
-    #timeout: 30000
-
-    # maximum time (in seconds) in which data is considered up to date
-    #
-    # default is 2 minutes, so server won't request the same data from
-    # uplink if a similar request was made less than 2 minutes ago
-    #maxage: 120
+<% if node['sinopia']['timeout'] %>
+timeout: <%= node['sinopia']['timeout'] %>
+<% end %>
+<% if node['sinopia']['maxage'] %>
+maxage: <%= node['sinopia']['maxage'] %>
+<% end %>
 
 packages:
-  # uncomment this for packages with "local-" prefix to be available
-  # for admin only, it's a recommended way of handling private packages
-  #'local-*':
-  #  allow_access: admin
-  #  allow_publish: admin
-  #  # you can override storage directory for a group of packages this way:
-  #  storage: 'local_storage'
-
-  '*':
-    # allow all users to read packages ('all' is a keyword)
-    # this includes non-authenticated users
+<% node['sinopia']['filters'].each do |filter| %>
+  '<%= filter['name'] %>':
+  <% if filter['access'] %>
+    <% if filter['access'] == '@admins' %>
+    allow_access: admin <%= @admins.join(' ') %>
+    <% else %>
+    allow_access: admin <%= filter['access'].join(' ') %>
+    <% end %>
+  <% else %>
     allow_access: all
-
-    # allow 'admin' to publish packages
-    allow_publish: admin<%= @admins %> 
-
-    # if package is not available locally, proxy requests to 'npmjs' registry
-    proxy: npmjs
+  <% end %>
+  <% if filter['publish'] %>
+    <% if filter['publish'] == '@admins' %>
+    allow_publish: admin <%= @admins.join(' ') %>
+    <% else %>
+    allow_publish: admin <%= filter['access'].join(' ') %>
+    <% end %>
+  <% else %>
+    allow_publish: admin
+  <% end %>
+  <% if filter['storage'] %>
+    storage: <%= filter['storage'] %>
+  <% end %>
+<% end %>
+  '*':
+    allow_access: all
+    allow_publish: admin <%= @admins.join(' ') %> 
+    proxy: <%= node['sinopia']['mainrepo'] %>
 
 #####################################################################
 # Advanced settings
 #####################################################################
+<% if node['sinopia']['public_url'] %>  
+url_prefix: <%= node['sinopia']['public_url'] %> 
+<% end %>
+<% if node['sinopia']['listen'] %>
+listen: <%= node['sinopia']['listen'] %>
+<% end %>
 
-# if you use nginx with custom path, use this to override links
-#url_prefix: https://dev.company.local/sinopia/
-
-# you can specify listen address (or simply a port)
-#listen: localhost:4873
-
-# type: file | stdout | stderr
-# level: trace | debug | info | http (default) | warn | error | fatal
-#
-# parameters for file: name is filename
-#  {type: 'file', path: 'sinopia.log', level: 'debug'},
-#
-# parameters for stdout and stderr: format: json | pretty
-#  {type: 'stdout', format: 'pretty', level: 'debug'},
 logs:
-  - {type: stdout, format: pretty, level: http}
-  #- {type: file, path: sinopia.log, level: info}
+<% node['sinopia']['logs'].each do |logset| %>
+  - <%= logset %>
+<% end %>
+<% if node['sinopia']['use_proxy'] == true %>
 
-# you can specify proxy used with all requests in wget-like manner here
-# (or set up ENV variables with the same name)
-#http_proxy: http://something.local/
-#https_proxy: https://something.local/
-#no_proxy: localhost,127.0.0.1
+http_proxy: <%= node['sinopia']['proxy']['http'] %>
+https_proxy: <%= node['sinopia']['proxy']['https'] %>
+no_proxy: <%= node['sinopia']['proxy']['no_proxy'].join(',') %>
+<% end %>
+<% if node['sinopia']['max_body_size'] %>
 
-# maximum size of uploaded json document
-# increase it if you have "request entity too large" errors
-#max_body_size: 1mb
+max_body_size: <%= node['sinopia']['max_body_size'] %>
+<% end %>

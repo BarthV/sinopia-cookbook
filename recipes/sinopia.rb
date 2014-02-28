@@ -4,6 +4,11 @@
 # Recipe:: sinopia
 #
 
+require 'digest'
+
+# password = "azerty"
+# hash = Digest::SHA1.hexdigest(password)
+
 package 'gcc'
 package 'make'
 package 'build-essential'
@@ -22,23 +27,23 @@ directory node['sinopia']['logdir'] do
   group node['sinopia']['user']
 end
 
-directory node['sinopia']['cachedir'] do
+directory node['sinopia']['datadir'] do
   owner node['sinopia']['user']
   group node['sinopia']['user']
 end
 
-admin_list = ''
+admin_add_list = []
 
 node['sinopia']['users'].each do |user,conf|
   if conf['admin']
-    admin_list += ' ' + user
+    admin_add_list.push(user)
   end
 end
 
 template File.join(node['sinopia']['confdir'], 'config.yaml') do
   source 'config.yaml.erb'
   variables(
-    :admins => admin_list
+    :admins => admin_add_list
   )
 end
 
