@@ -32,7 +32,7 @@ Default recipe with no other options will :
 * All desired packages are cached from https://registry.npmjs.org/
 * A single npm account is provisionned to publish private packages with :
  * login : `admin`
-  * passw : `admin`
+ * passw : `admin`
 
 # Attributes
 Every single Sinopia configuration item can be managed from node attributes.
@@ -63,13 +63,15 @@ No users are created by default.
 * You can give admin right to a specific user with `user['admin'] = true` hash
 
 Example:
-```node['sinopia']['users']['bob']['pass'] = 'incredible'
+```ruby
+node['sinopia']['users']['bob']['pass'] = 'incredible'
 node['sinopia']['users']['bob']['admin'] = true
 
 node['sinopia']['users']['andy']['pass'] = 'toys'
 node['sinopia']['users']['andy']['admin'] = true
 
-node['sinopia']['users']['woody']['pass'] = 'buzz'```
+node['sinopia']['users']['woody']['pass'] = 'buzz'
+```
 
 ## NPM Registry
 
@@ -78,11 +80,13 @@ You can store a list of available npm repositories in `node['sinopia']['repos']`
 Default hash is loaded with official npmjs repo : `default['sinopia']['repos'] = {'npmjs' => 'https://registry.npmjs.org/'}`
 
 Example :
-```node['sinopia']['repos'] = {
+```ruby
+node['sinopia']['repos'] = {
   'npmjs' => 'https://registry.npmjs.org/', # official npmjs repo
   'myrepo' => 'https://myrepo.local/',
   'other' => 'https://third-party-repo.com'
-}```
+}
+```
 
 `node['sinopia']['mainrepo']` : (npmjs) Caching repository name selected from available repos list
 
@@ -92,17 +96,18 @@ Example :
 - Filter format is an Array with one Hash for one rule  
 - Wildcard is accepted in the filter name rule
 - Access can be provided to :
-* Default (all)
-* Specified available users : `['user1', 'user2']`
-* admin account + all admin user : '@admins'
+ * Default (all)
+ * Specified available users : `['user1', 'user2']`
+ * admin account + all admin user : '@admins'
 - publish can be provided to :
-* Default (admin account only)
-* Specified available users + admin : `['user1', 'user2']`
-* admin account + all admin user : '@admins'
+ * Default (admin account only)
+ * Specified available users + admin : `['user1', 'user2']`
+ * admin account + all admin user : '@admins'
 - Storage value is the name of the folder where filtered packages will be set.
 
 Example :
-```node['sinopia']['filters'] = [
+```ruby
+node['sinopia']['filters'] = [
   {
     'name' => 'private-*',
     'storage' => 'private-repo'
@@ -115,26 +120,31 @@ Example :
     'name' => 'test-*',
     'access' => '@admins'
   }
-]```
+]
+```
 
 ## Logging
 
 This cookbook is reusing specific logging format of Sinopia :
 
-```type: file | stdout | stderr
+```
+type: file | stdout | stderr
 level: trace | debug | info | http (default) | warn | error | fatal
 
 {type: 'file', path: 'sinopia.log', level: 'debug'},
 
 parameters for stdout and stderr: format: json | pretty
-{type: 'stdout', format: 'pretty', level: 'debug'}```
+{type: 'stdout', format: 'pretty', level: 'debug'}
+```
 
 You can add as much logger as you want (including '{}') in `default['sinopia']['logs']` Array
 
 Default value is :
-   node['sinopia']['logs'] = [
-     "{type: file, path: '/var/log/sinopia/sinopia.log', level: warn}"
-   ]
+```ruby
+node['sinopia']['logs'] = [
+  "{type: file, path: '/var/log/sinopia/sinopia.log', level: warn}"
+]
+```
 
 ## NPM
 
