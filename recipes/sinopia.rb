@@ -47,7 +47,7 @@ logrotate_app 'sinopia' do
   cookbook  'logrotate'
   path      File.join(node['sinopia']['logdir'], 'sinopia.log')
   frequency 'daily'
-  rotate    30
+  rotate    node['sinopia']['logdays']
   create    '644 root adm'
 end
 

@@ -14,7 +14,7 @@ default['sinopia']['users'] = {}
 # default['sinopia']['users']['bob']['pass'] = 'incredible'
 # default['sinopia']['users']['bob']['admin'] = true
 
-# default['sinopia']['users']['andy']['pass'] = 'password'
+# default['sinopia']['users']['andy']['pass'] = 'toys'
 # default['sinopia']['users']['andy']['admin'] = true
 
 # default['sinopia']['users']['woody']['pass'] = 'buzz'
@@ -31,6 +31,7 @@ default['sinopia']['listen'] = nil
 # Parents directory MUST exists !
 default['sinopia']['confdir'] = '/etc/sinopia'
 default['sinopia']['logdir'] = '/var/log/sinopia'
+default['sinopia']['logdays'] = 30
 default['sinopia']['datadir'] = '/var/lib/sinopia'
 
 ## NodeJS repo list options
