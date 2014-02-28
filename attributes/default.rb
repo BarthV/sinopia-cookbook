@@ -35,7 +35,7 @@ default['sinopia']['repos'] = {
   'norepo' => 'https://dev.null/'
 }
 
-default['sinopia']['mainrepo'] = 'npmjs' 
+default['sinopia']['mainrepo'] = 'npmjs'
 
 default['sinopia']['timeout'] = nil # 30000 ms
 default['sinopia']['maxage'] = nil # 120 s

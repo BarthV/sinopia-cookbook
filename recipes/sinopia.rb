@@ -6,9 +6,6 @@
 
 require 'digest'
 
-# password = "azerty"
-# hash = Digest::SHA1.hexdigest(password)
-
 package 'gcc'
 package 'make'
 package 'build-essential'
@@ -34,10 +31,8 @@ end
 
 admin_add_list = []
 
-node['sinopia']['users'].each do |user,conf|
-  if conf['admin']
-    admin_add_list.push(user)
-  end
+node['sinopia']['users'].each do |user, conf|
+  admin_add_list.push(user) if conf['admin']
 end
 
 template File.join(node['sinopia']['confdir'], 'config.yaml') do
@@ -47,11 +42,11 @@ template File.join(node['sinopia']['confdir'], 'config.yaml') do
   )
 end
 
-# template '/etc/init/npmlazy.conf' do
-#   source 'npmlazy.conf.erb'
+# template '/etc/init/sinopia.conf' do
+#   source 'sinopia.conf.erb'
 # end
 
-# service 'npmlazy' do
+# service 'sinopia' do
 #   provider Chef::Provider::Service::Upstart
 #   supports :status => true, :restart => true, :reload => false
 #   action [:enable, :start]
