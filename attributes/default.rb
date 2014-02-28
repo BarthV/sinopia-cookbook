@@ -82,7 +82,7 @@ default['sinopia']['filters'] = [
 # parameters for stdout and stderr: format: json | pretty
 #  {type: 'stdout', format: 'pretty', level: 'debug'},
 default['sinopia']['logs'] = [
-  "{type: file, path: #{File.join(node['sinopia']['logdir'], 'sinopia.log')}, level: warn}"
+  "{type: file, path: '#{File.join(node['sinopia']['logdir'], 'sinopia.log')}', level: warn}"
 ]
 
 ## Node default install method (source | package | binary)
