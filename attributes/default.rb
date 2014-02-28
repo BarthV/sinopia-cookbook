@@ -33,6 +33,7 @@ default['sinopia']['confdir'] = '/etc/sinopia'
 default['sinopia']['logdir'] = '/var/log/sinopia'
 default['sinopia']['logdays'] = 30
 default['sinopia']['datadir'] = '/var/lib/sinopia'
+default['sinopia']['loglevel'] = 'warn'
 
 ## NodeJS repo list options
 default['sinopia']['repos'] = {
@@ -82,7 +83,7 @@ default['sinopia']['filters'] = [
 # parameters for stdout and stderr: format: json | pretty
 #  {type: 'stdout', format: 'pretty', level: 'debug'},
 default['sinopia']['logs'] = [
-  "{type: file, path: '#{File.join(node['sinopia']['logdir'], 'sinopia.log')}', level: warn}"
+  "{type: 'file', path: '#{File.join(node['sinopia']['logdir'], 'sinopia.log')}', level: '#{node['sinopia']['loglevel']}'}"
 ]
 
 ## Node default install method (source | package | binary)
