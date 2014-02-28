@@ -10,10 +10,13 @@ default['sinopia']['version'] = nil
 default['sinopia']['admin']['pass'] = 'admin'
 
 default['sinopia']['users'] = {}
-# default['sinopia']['users']['barth']['pass'] = 'azerty'
-# default['sinopia']['users']['barth']['admin'] = true
+
+# default['sinopia']['users']['bob']['pass'] = 'incredible'
+# default['sinopia']['users']['bob']['admin'] = true
+
 # default['sinopia']['users']['andy']['pass'] = 'password'
 # default['sinopia']['users']['andy']['admin'] = true
+
 # default['sinopia']['users']['woody']['pass'] = 'buzz'
 
 ## sinopia links rewrite URL (url_prefix)
@@ -58,6 +61,9 @@ default['sinopia']['filters'] = [
 #    'name' => 'admin-*',
 #    'access' => ['andy', 'woody']
 #  },
+#  
+## @admin is a special value for admin account + all admin users
+#
 #  {
 #    'name' => 'test-*',
 #    'access' => '@admins'

@@ -42,6 +42,14 @@ template File.join(node['sinopia']['confdir'], 'config.yaml') do
   )
 end
 
+logrotate_app 'sinopia' do
+  cookbook  'logrotate'
+  path      File.join(node['sinopia']['logdir'], 'sinopia.log')
+  frequency 'daily'
+  rotate    30
+  create    '644 root adm'
+end
+
 # template '/etc/init/sinopia.conf' do
 #   source 'sinopia.conf.erb'
 # end
