@@ -61,7 +61,7 @@ default['sinopia']['filters'] = [
 #    'name' => 'admin-*',
 #    'access' => ['andy', 'woody']
 #  },
-# 
+#
 ## @admin is a special value for admin account + all admin users
 #
 #  {

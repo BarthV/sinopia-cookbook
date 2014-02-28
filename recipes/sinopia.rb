@@ -50,12 +50,12 @@ logrotate_app 'sinopia' do
   create    '644 root adm'
 end
 
-# template '/etc/init/sinopia.conf' do
-#   source 'sinopia.conf.erb'
-# end
+template '/etc/init/sinopia.conf' do
+  source 'sinopia.conf.erb'
+end
 
-# service 'sinopia' do
-#   provider Chef::Provider::Service::Upstart
-#   supports :status => true, :restart => true, :reload => false
-#   action [:enable, :start]
-# end
+service 'sinopia' do
+  provider Chef::Provider::Service::Upstart
+  supports :status => true, :restart => true, :reload => false
+  action [:enable, :start]
+end
