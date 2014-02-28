@@ -40,28 +40,20 @@ Default values are specified each time.
 
 ## System configuration
 
-`node['sinopia']['user']` : (sinopia) default user running sinopia
-
-`node['sinopia']['confdir']` : (/etc/sinopia) config.yaml file location
-
-`node['sinopia']['datadir']` : (/var/lib/sinopia) Sinopia cache & private stores location
-
-`node['sinopia']['logdir']` : (/var/log/sinopia) sinopia.log file location
-
-`node['sinopia']['logdays']` : (30) log retention policy, `Integer` days 
+- `node['sinopia']['user']` : (sinopia) default user running sinopia
+- `node['sinopia']['confdir']` : (/etc/sinopia) config.yaml file location
+- `node['sinopia']['datadir']` : (/var/lib/sinopia) Sinopia cache & private stores location
+- `node['sinopia']['logdir']` : (/var/log/sinopia) sinopia.log file location
+- `node['sinopia']['logdays']` : (30) log retention policy, `Integer` days 
 
 ## Sinopia global conf
 
-`node['sinopia']['version']` : (nil) Synopia npm package version, use `nil` for latest
-
-`node['sinopia']['admin']['pass']` : (admin) Synopia admin account clear password
-
-`node['sinopia']['public_url']` : Sinopia rewrite url, url prefix for provided links 
-
-`node['sinopia']['timeout']` : (nil) Sinopia timeout, software default is 30000 ms 
-`node['sinopia']['maxage']` : (nil) Sinopia metadata cache max age, software defaut is
-`node['sinopia']['max_body_size']` : (nil)
-
+- `node['sinopia']['version']` : (nil) Synopia npm package version, use `nil` for latest
+- `node['sinopia']['admin']['pass']` : (admin) Synopia admin account clear password
+- `node['sinopia']['public_url']` : Sinopia rewrite url, url prefix for provided links
+- `node['sinopia']['timeout']` : (nil) Cached repo timeout in ms, software default is 30000 ms
+- `node['sinopia']['maxage']` : (nil) Sinopia metadata cache max age in sec, software defaut is 120s
+- `node['sinopia']['max_body_size']` : (nil) Maximum size of uploaded json document, software default is 1mb
 
 ## Users and rights
 
@@ -77,11 +69,11 @@ Example:
    node['sinopia']['users']['andy']['pass'] = 'toys'
    node['sinopia']['users']['andy']['admin'] = true
    
-   node['sinopia']['users']['woody']['pass'] = 'buzzl'
+   node['sinopia']['users']['woody']['pass'] = 'buzz'
 
 ## NPM Registry
 
-You can store a list of available npm repositories in `node['sinopia']['repos']` following 'name' => 'url' syntax. 
+You can store a list of available npm repositories in `node['sinopia']['repos']` following {'name' => 'url'} syntax. 
 
 Default hash is loaded with official npmjs repo : `default['sinopia']['repos'] = {'npmjs' => 'https://registry.npmjs.org/'}`
 
@@ -92,9 +84,68 @@ Example :
      'other' => 'https://third-party-repo.com'
    }
 
-`node['sinopia']['mainrepo']` : (npmjs) Caching repository selected from available repos list
+`node['sinopia']['mainrepo']` : (npmjs) Caching repository name selected from available repos list
+
+## Filters
+
+- You can define access & publish filters based on package name under `default['sinopia']['filters']`
+- Filter format is an Array with one Hash for one rule  
+- Wildcard is accepted in the filter name rule
+- Access can be provided to :
+* Default (all)
+* Specified available users : `['user1', 'user2']`
+* admin account + all admin user : '@admins'
+- publish can be provided to :
+* Default (admin account only)
+* Specified available users + admin : `['user1', 'user2']`
+* admin account + all admin user : '@admins'
+- Storage value is the name of the folder where filtered packages will be set.
+
+Example :
+   node['sinopia']['filters'] = [
+     {
+       'name' => 'private-*',
+       'storage' => 'private-repo'
+     },
+     {
+       'name' => 'admin-*',
+       'access' => ['andy', 'woody']
+     },
+     {
+       'name' => 'test-*',
+       'access' => '@admins'
+     }
+   ]`
+
+## Logging
+
+This cookbook is reusing specific logging format of Sinopia :
+
+   type: file | stdout | stderr
+   level: trace | debug | info | http (default) | warn | error | fatal
+
+   {type: 'file', path: 'sinopia.log', level: 'debug'},
+
+   parameters for stdout and stderr: format: json | pretty
+   {type: 'stdout', format: 'pretty', level: 'debug'},
+
+You can add as much logger as you want (including '{}') in `default['sinopia']['logs']` Array
+
+Default value is :
+   node['sinopia']['logs'] = [
+     "{type: file, path: #{File.join(node['sinopia']['logdir'], 'sinopia.log')}, level: warn}"
+   ]
+
+## NPM
+
+See `attributes/default.rb` to view Node & npm install options (version, source/package, ...)
 
 # Recipes
+
+`sinopia::default` recipe includes :
+- `sinopia::users` : creates users
+- `sinopia::nodejs` : install node & npm
+- `sinopia::sinopia` : install sinopia, directories, conf and start service
 
 # Author
 
