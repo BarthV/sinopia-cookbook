@@ -1,6 +1,3 @@
-require 'coveralls'
-Coveralls.wear!
-
 require 'spec_helper'
 
 # describe 'sinopia::nodejs' do

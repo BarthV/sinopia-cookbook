@@ -7,7 +7,6 @@ gem 'chefspec', '~> 3.0.2'
 gem 'foodcritic', '~> 3.0.3'
 gem 'strainer', '3.3.0'
 gem 'rubocop', '0.18.1'
-gem 'coveralls', require: false
 
 group :integration do
   gem 'test-kitchen', '~> 1.1.1'
