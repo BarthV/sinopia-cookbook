@@ -49,8 +49,8 @@ Default values are specified each time.
 
 ## Sinopia global conf
 
-- `node['sinopia']['version']` : (nil) Synopia npm package version, use `nil` for latest
-- `node['sinopia']['admin']['pass']` : (admin) Synopia admin account clear password
+- `node['sinopia']['version']` : (nil) Sinopia npm package version, use `nil` for latest
+- `node['sinopia']['admin']['pass']` : (admin) Sinopia admin account clear password
 - `node['sinopia']['public_url']` : Sinopia rewrite url, url prefix for provided links
 - `node['sinopia']['timeout']` : (nil) Cached repo timeout in ms, software default is 30000 ms
 - `node['sinopia']['maxage']` : (nil) Sinopia metadata cache max age in sec, software defaut is 120s
