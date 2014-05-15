@@ -44,11 +44,11 @@ template File.join(node['sinopia']['confdir'], 'config.yaml') do
 end
 
 logrotate_app 'sinopia' do
-  cookbook  'logrotate'
-  path      File.join(node['sinopia']['logdir'], 'sinopia.log')
+  cookbook 'logrotate'
+  path File.join(node['sinopia']['logdir'], 'sinopia.log')
   frequency 'daily'
-  rotate    node['sinopia']['logdays']
-  create    '644 root adm'
+  rotate node['sinopia']['logdays']
+  create '644 root adm'
 end
 
 template '/etc/init/sinopia.conf' do
