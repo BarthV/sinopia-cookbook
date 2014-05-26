@@ -4,7 +4,7 @@ gem 'rake'
 
 group :test do
   gem 'foodcritic', '~> 3.0'
-  gem 'rubocop', '~> 0.21'
+  gem 'rubocop', '~> 0.22'
 end
 
 group :integration do

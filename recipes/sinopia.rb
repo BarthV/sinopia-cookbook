@@ -6,11 +6,7 @@
 
 require 'digest'
 
-package 'gcc'
-package 'make'
-package 'build-essential'
-
-node_npm 'sinopia' do
+nodejs_npm 'sinopia' do
   version node['sinopia']['version']
   action :install
 end

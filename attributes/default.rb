@@ -38,7 +38,7 @@ default['sinopia']['loglevel'] = 'warn'
 ## NodeJS repo list options
 default['sinopia']['repos'] = {
   'npmjs' => 'https://registry.npmjs.org/' # official npmjs repo
-#  'myrepo' => 'https://myrepo.local/'
+  # 'myrepo' => 'https://myrepo.local/'
 }
 
 default['sinopia']['mainrepo'] = 'npmjs'
@@ -56,21 +56,21 @@ default['sinopia']['proxy']['no_proxy'] = [
 
 ## local repos ACL - filters
 default['sinopia']['filters'] = [
-#  {
-#    'name' => 'private-*',
-#    'storage' => 'private-repo'
-#  },
-#  {
-#    'name' => 'admin-*',
-#    'access' => ['andy', 'woody']
-#  },
-#
-## @admin is a special value for admin account + all admin users
-#
-#  {
-#    'name' => 'test-*',
-#    'access' => '@admins'
-#  }
+  # {
+  #   'name' => 'private-*',
+  #   'storage' => 'private-repo'
+  # },
+  # {
+  #   'name' => 'admin-*',
+  #   'access' => ['andy', 'woody']
+  # },
+  #
+  ## @admin is a special value for admin account + all admin users
+  #
+  # {
+  #   'name' => 'test-*',
+  #   'access' => '@admins'
+  # }
 ]
 
 ## Logging options
@@ -85,17 +85,3 @@ default['sinopia']['filters'] = [
 default['sinopia']['logs'] = [
   "{type: 'file', path: '#{File.join(node['sinopia']['logdir'], 'sinopia.log')}', level: '#{node['sinopia']['loglevel']}'}"
 ]
-
-## Node default install method (source | package | binary)
-default['nodejs']['install_method'] = 'package'
-
-## Node target default version (set nil to use latest version from repo)
-case node['nodejs']['install_method']
-when 'package'
-  default['nodejs']['version'] = nil
-else
-  default['nodejs']['version'] = '0.10.26' # 2014.02.18 (Stable)
-end
-
-## NPM target version (set nil to use nodejs embedded npm)
-default['nodejs']['npm'] = nil
