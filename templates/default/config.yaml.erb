@@ -50,11 +50,11 @@ packages:
   <% end %>
 <% end %>
   '*':
-    <% if node['sinopia']['filters']['strict_access'] %>
-      allow_access: admin <%= @admins.join(' ') %>
-    <% else %>
-      allow_access: all
-    <% end %>
+  <% if node['sinopia']['filters']['strict_access'] %>
+    allow_access: admin <%= @admins.join(' ') %>
+  <% else %>
+    allow_access: all
+  <% end %>
     allow_publish: admin <%= @admins.join(' ') %>
     proxy: <%= node['sinopia']['mainrepo'] %>
 
