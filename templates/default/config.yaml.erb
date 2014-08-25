@@ -50,15 +50,19 @@ packages:
   <% end %>
 <% end %>
   '*':
+  <% if node['sinopia']['filters']['strict_access'] %>
+    allow_access: admin <%= @admins.join(' ') %>
+  <% else %>
     allow_access: all
-    allow_publish: admin <%= @admins.join(' ') %> 
+  <% end %>
+    allow_publish: admin <%= @admins.join(' ') %>
     proxy: <%= node['sinopia']['mainrepo'] %>
 
 #####################################################################
 # Advanced settings
 #####################################################################
-<% if node['sinopia']['public_url'] %>  
-url_prefix: <%= node['sinopia']['public_url'] %> 
+<% if node['sinopia']['public_url'] %>
+url_prefix: <%= node['sinopia']['public_url'] %>
 <% end %>
 <% if node['sinopia']['listen'] %>
 listen: <%= node['sinopia']['listen'] %>
