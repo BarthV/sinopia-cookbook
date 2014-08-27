@@ -5,14 +5,13 @@ namespace :style do
   begin
     require 'rubocop/rake_task'
     desc 'Run Ruby style checks'
-    Rubocop::RakeTask.new(:ruby)
+    RuboCop::RakeTask.new(:ruby)
   rescue LoadError
     puts '>>>>> Rubocop gem not loaded, omitting tasks' unless ENV['CI']
   end
 
   begin
     require 'foodcritic'
-
     desc 'Run Chef style checks'
     FoodCritic::Rake::LintTask.new(:chef) do |t|
       t.options = {
@@ -39,8 +38,13 @@ namespace :integration do
   end
 end
 
+namespace :maintain do
+  require 'stove/rake_task'
+  Stove::RakeTask.new
+end
+
 desc 'Run all tests on Travis'
-task travis: ['style']
+task travis: ['style:ruby', 'style:chef']
 
 # Default
-task default: ['style', 'integration:kitchen:all']
+task default: ['style:ruby', 'style:chef']
