@@ -38,11 +38,6 @@ namespace :integration do
   end
 end
 
-namespace :maintain do
-  require 'stove/rake_task'
-  Stove::RakeTask.new
-end
-
 desc 'Run all tests on Travis'
 task travis: ['style:ruby', 'style:chef']
 
