@@ -1,5 +1,5 @@
 # sinopia cookbook
-[![Build Status](https://travis-ci.org/BarthV/sinopia-cookbook.png?branch=master)](https://travis-ci.org/BarthV/sinopia-cookbook)
+[![CK Version](http://img.shields.io/cookbook/v/sinopia.svg)](https://supermarket.getchef.com/cookbooks/sinopia) [![Build Status](https://img.shields.io/travis/redguide/nodejs.svg)](https://travis-ci.org/BarthV/sinopia-cookbook)
 
 Sinopia project : https://github.com/rlidwka/sinopia/
 
