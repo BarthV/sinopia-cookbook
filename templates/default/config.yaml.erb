@@ -50,7 +50,7 @@ packages:
   <% end %>
 <% end %>
   '*':
-  <% if node['sinopia']['filters']['strict_access'] %>
+  <% if node['sinopia']['strict_access'] %>
     allow_access: admin <%= @admins.join(' ') %>
   <% else %>
     allow_access: all

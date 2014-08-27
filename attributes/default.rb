@@ -47,6 +47,9 @@ default['sinopia']['timeout'] = nil # 30000 ms
 default['sinopia']['maxage'] = nil # 120 s
 default['sinopia']['max_body_size'] = nil # 1mb
 
+# Restric read access for admins only
+default['sinopia']['strict_access'] = false
+
 default['sinopia']['use_proxy'] = false
 default['sinopia']['proxy']['http'] = 'http://something.local/'
 default['sinopia']['proxy']['https'] = 'https://something.local/'

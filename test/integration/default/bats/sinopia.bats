@@ -9,7 +9,7 @@
 }
 
 @test "sinopia should be running" {
-    [ "$(ps aux | grep -v grep | grep sinopia)" ]
+    [ "$(ps aux |grep -v grep |grep sinopia)" ]
 }
 
 @test "sinopia should be listening TCP 4873" {
