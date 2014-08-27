@@ -10,8 +10,8 @@ It allows you to have a local npm registry with zero configuration. You don't ha
 # Requirements
 
 - Chef >= 11
-- Currently only tested with chef 11.10 on Ubuntu 12.04.
-- Sinopia Cookbook heavily depends on `nodejs` and `node` community cookbooks.
+- Supported platforms : Ubuntu 12.04, 14.04.
+- Sinopia Cookbook heavily depends on `nodejs` community cookbooks.
 
 # Usage
 
@@ -93,6 +93,7 @@ node['sinopia']['repos'] = {
 
 ## Filters
 
+- `default['sinopia']['strict_access']` : When set to `true`, this only allow admin and admin users to access sinopia repos, default is `false`
 - You can define access & publish filters based on package name under `default['sinopia']['filters']`
 - Filter format is an Array with one Hash for one rule  
 - Wildcard is accepted in the filter name rule
