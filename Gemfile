@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'berkshelf'
-gem 'stove'
 
 group :test do
   gem 'foodcritic', '~> 4.0'
