@@ -47,12 +47,25 @@ logrotate_app 'sinopia' do
   create '644 root adm'
 end
 
-template '/etc/init/sinopia.conf' do
-  source 'sinopia.conf.erb'
+if node['platform_family'] == 'rhel'
+  service_provider = Chef::Provider::Service::Redhat
+
+  package 'redhat-lsb-core'
+
+  template '/etc/init.d/sinopia' do
+    source 'sinopia.sysvinit.erb'
+    mode '0755'
+  end
+else
+  service_provider = Chef::Provider::Service::Upstart
+
+  template '/etc/init/sinopia.conf' do
+    source 'sinopia.conf.erb'
+  end
 end
 
 service 'sinopia' do
-  provider Chef::Provider::Service::Upstart
+  provider service_provider
   supports :status => true, :restart => true, :reload => false
   action [:enable, :start]
 end
