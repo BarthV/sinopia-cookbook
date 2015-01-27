@@ -13,5 +13,5 @@
 }
 
 @test "sinopia should be listening TCP 4873" {
-    [ "$(netstat -plant |grep node |grep 4873)" ]
+    [ "$(netstat -plant | grep 4873 | grep LISTEN)" ]
 }
