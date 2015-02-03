@@ -36,6 +36,7 @@ template File.join(node['sinopia']['confdir'], 'config.yaml') do
   variables(
     :admins => admin_add_list
   )
+  mode 0444
   notifies :restart, 'service[sinopia]', :delayed
 end
 
