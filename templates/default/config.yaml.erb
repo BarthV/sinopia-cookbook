@@ -49,6 +49,9 @@ packages:
   <% if filter['storage'] %>
     storage: <%= filter['storage'] %>
   <% end %>
+  <% if filter['proxy'] %>
+    proxy: <%= filter['proxy'] %>
+  <% end %>
   <%- wildcard_is_defined ||= (filter['name'] == '*') -%>
 <% end %>
 <%- if !wildcard_is_defined -%>
