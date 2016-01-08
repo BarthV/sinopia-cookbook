@@ -17,7 +17,7 @@ platforms:
 - name: centos-7.0
 
 provisioner:
-    name: chef_zero
+  name: chef_zero
 
 suites:
 - name: default
