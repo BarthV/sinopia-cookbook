@@ -68,10 +68,21 @@ if node['platform_family'] == 'rhel'
       mode '0755'
     end
   end
-else
-  template '/etc/init/sinopia.conf' do
-    source 'sinopia.conf.erb'
+elsif node['platform_family'] == 'debian'
+  if node['init_package'] == 'systemd'
+    template '/lib/systemd/system/sinopia.service' do
+      source 'sinopia.service.erb'
+      mode '0644'
+      notifies :restart, 'service[sinopia]', :delayed
+    end
+  else
+    template '/etc/init/sinopia.conf' do
+      source 'sinopia.conf.erb'
+      notifies :restart, 'service[sinopia]', :delayed
+    end
   end
+else
+  raise 'Platform not supported'
 end
 
 service 'sinopia' do
