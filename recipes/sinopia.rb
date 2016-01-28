@@ -61,8 +61,6 @@ if node['platform_family'] == 'rhel'
       action :nothing
     end
   else
-    service_provider = Chef::Provider::Service::Redhat
-
     package 'redhat-lsb-core'
 
     template '/etc/init.d/sinopia' do
@@ -71,15 +69,12 @@ if node['platform_family'] == 'rhel'
     end
   end
 else
-  service_provider = Chef::Provider::Service::Upstart
-
   template '/etc/init/sinopia.conf' do
     source 'sinopia.conf.erb'
   end
 end
 
 service 'sinopia' do
-  provider service_provider
   supports :status => true, :restart => true, :reload => false
   action [:enable, :start]
 end
