@@ -25,6 +25,7 @@ maxage: <%= node['sinopia']['maxage'] %>
 <% end %>
 
 packages:
+<%- wildcard_is_defined = false -%>
 <% node['sinopia']['filters'].each do |filter| %>
   '<%= filter['name'] %>':
   <% if filter['access'] %>
@@ -34,7 +35,7 @@ packages:
     allow_access: admin <%= filter['access'].join(' ') %>
     <% end %>
   <% else %>
-    allow_access: all
+    allow_access: $all
   <% end %>
   <% if filter['publish'] %>
     <% if filter['publish'] == '@admins' %>
@@ -48,15 +49,21 @@ packages:
   <% if filter['storage'] %>
     storage: <%= filter['storage'] %>
   <% end %>
+  <% if filter['proxy'] %>
+    proxy: <%= filter['proxy'] %>
+  <% end %>
+  <%- wildcard_is_defined ||= (filter['name'] == '*') -%>
 <% end %>
+<%- if !wildcard_is_defined -%>
   '*':
   <% if node['sinopia']['strict_access'] %>
     allow_access: admin <%= @admins.join(' ') %>
   <% else %>
-    allow_access: all
+    allow_access: $all
   <% end %>
     allow_publish: admin <%= @admins.join(' ') %>
     proxy: <%= node['sinopia']['mainrepo'] %>
+<%- end -%>
 
 #####################################################################
 # Advanced settings
