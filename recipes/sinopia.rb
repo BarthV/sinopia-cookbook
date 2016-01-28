@@ -48,7 +48,8 @@ logrotate_app 'sinopia' do
   create '644 root adm'
 end
 
-if node['platform_family'] == 'rhel'
+case node['platform_family']
+when 'rhel'
   if node['init_package'] == 'systemd'
     template '/usr/lib/systemd/system/sinopia.service' do
       source 'sinopia.service.erb'
@@ -68,7 +69,7 @@ if node['platform_family'] == 'rhel'
       mode '0755'
     end
   end
-elsif node['platform_family'] == 'debian'
+when 'debian'
   if node['init_package'] == 'systemd'
     template '/lib/systemd/system/sinopia.service' do
       source 'sinopia.service.erb'
