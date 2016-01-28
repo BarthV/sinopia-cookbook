@@ -49,24 +49,32 @@ logrotate_app 'sinopia' do
 end
 
 if node['platform_family'] == 'rhel'
-  service_provider = Chef::Provider::Service::Redhat
+  if node['init_package'] == 'systemd'
+    template '/usr/lib/systemd/system/sinopia.service' do
+      source 'sinopia.service.erb'
+      mode '0644'
+      notifies :run, 'execute[systemd-reload]', :immediately
+      notifies :restart, 'service[sinopia]', :delayed
+    end
+    execute 'systemd-reload' do
+      command 'systemctl daemon-reload'
+      action :nothing
+    end
+  else
+    package 'redhat-lsb-core'
 
-  package 'redhat-lsb-core'
-
-  template '/etc/init.d/sinopia' do
-    source 'sinopia.sysvinit.erb'
-    mode '0755'
+    template '/etc/init.d/sinopia' do
+      source 'sinopia.sysvinit.erb'
+      mode '0755'
+    end
   end
 else
-  service_provider = Chef::Provider::Service::Upstart
-
   template '/etc/init/sinopia.conf' do
     source 'sinopia.conf.erb'
   end
 end
 
 service 'sinopia' do
-  provider service_provider
   supports :status => true, :restart => true, :reload => false
   action [:enable, :start]
 end

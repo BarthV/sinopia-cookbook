@@ -10,7 +10,7 @@ It allows you to have a local npm registry with zero configuration. You don't ha
 # Requirements
 
 - Chef >= 11
-- Supported platforms : Ubuntu 12.04, 14.04.
+- Supported platforms : Ubuntu 12.04, 14.04 & CentOS 6, 7.
 - Sinopia Cookbook heavily depends on `nodejs` community cookbooks.
 
 # Usage
