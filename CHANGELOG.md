@@ -1,7 +1,7 @@
 Sinopia Cookbook CHANGELOG
 ==========================
 
-v0.3.0
+0.3.2
 -------------------
 - Adding changelog file
 - Adding EL6/EL7 support
