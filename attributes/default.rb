@@ -57,6 +57,9 @@ default['sinopia']['proxy']['no_proxy'] = [
   'localhost', '127.0.0.1'
 ]
 
+default['sinopia']['htpasswd']['enable'] = false
+default['sinopia']['htpasswd']['path'] = "#{default['sinopia']['datadir']}/.htpasswd"
+
 ## local repos ACL - filters
 default['sinopia']['filters'] = [
   # {

@@ -11,6 +11,12 @@ users:
     password: <%= Digest::SHA1.hexdigest(conf['pass']) %>
 <% end %>
 
+<% if node['sinopia']['htpasswd']['enable'] %>
+auth:
+  htpasswd:
+    file: <%= node['sinopia']['htpasswd']['path'] %>
+<% end %>
+
 uplinks:
 <% node['sinopia']['repos'].each do |name,url| %>
   <%= name %>:
