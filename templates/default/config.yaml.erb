@@ -41,7 +41,7 @@ packages:
     <% if filter['publish'] == '@admins' %>
     allow_publish: admin <%= @admins.join(' ') %>
     <% else %>
-    allow_publish: admin <%= filter['access'].join(' ') %>
+    allow_publish: admin <%= filter['publish'].join(' ') %>
     <% end %>
   <% else %>
     allow_publish: admin
