@@ -30,21 +30,21 @@ packages:
   '<%= filter['name'] %>':
   <% if filter['access'] %>
     <% if filter['access'] == '@admins' %>
-    access: admin <%= @admins.join(' ') %>
+    allow_access: admin <%= @admins.join(' ') %>
     <% else %>
-    access: admin <%= filter['access'].join(' ') %>
+    allow_access: admin <%= filter['access'].join(' ') %>
     <% end %>
   <% else %>
-    access: $all
+    allow_access: $all
   <% end %>
   <% if filter['publish'] %>
     <% if filter['publish'] == '@admins' %>
-    publish: admin <%= @admins.join(' ') %>
+    allow_publish: admin <%= @admins.join(' ') %>
     <% else %>
-    publish: admin <%= filter['access'].join(' ') %>
+    allow_publish: admin <%= filter['access'].join(' ') %>
     <% end %>
   <% else %>
-    publish: admin
+    allow_publish: admin
   <% end %>
   <% if filter['storage'] %>
     storage: <%= filter['storage'] %>
@@ -57,11 +57,11 @@ packages:
 <%- if !wildcard_is_defined -%>
   '*':
   <% if node['sinopia']['strict_access'] %>
-    access: admin <%= @admins.join(' ') %>
+    allow_access: admin <%= @admins.join(' ') %>
   <% else %>
-    access: $all
+    allow_access: $all
   <% end %>
-    publish: admin <%= @admins.join(' ') %>
+    allow_publish: admin <%= @admins.join(' ') %>
     proxy: <%= node['sinopia']['mainrepo'] %>
 <%- end -%>
 
