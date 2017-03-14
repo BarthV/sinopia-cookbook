@@ -21,3 +21,11 @@
 include_recipe 'sinopia::users'
 include_recipe 'sinopia::nodejs'
 include_recipe 'sinopia::sinopia'
+
+# Don't do this
+directory '/var/lib/foo' do
+  owner 'root'
+  group 'root'
+  mode 644
+  action :create
+end
